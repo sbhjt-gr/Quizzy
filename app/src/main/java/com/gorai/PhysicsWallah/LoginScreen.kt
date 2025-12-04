@@ -9,19 +9,59 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gorai.PhysicsWallah.ui.theme.*
 
+class WaveButtonShape : Shape {
+    override fun createOutline(
+        size: Size,
+        layoutDirection: LayoutDirection,
+        density: Density
+    ): Outline {
+        val path = Path().apply {
+            val waveDepth = 40f
+            val bottomRadius = 50f
+
+            moveTo(0f, waveDepth)
+
+            quadraticBezierTo(
+                size.width * 0.5f, -waveDepth,
+                size.width, waveDepth
+            )
+
+            lineTo(size.width, size.height - bottomRadius)
+
+            quadraticBezierTo(
+                size.width, size.height,
+                size.width - bottomRadius, size.height
+            )
+
+            lineTo(bottomRadius, size.height)
+
+            quadraticBezierTo(
+                0f, size.height,
+                0f, size.height - bottomRadius
+            )
+
+            close()
+        }
+        return Outline.Generic(path)
+    }
+}
+
 @Composable
 fun LoginScreen() {
-    var schoolId by remember { mutableStateOf("") }
-    var studentId by remember { mutableStateOf("") }
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -107,87 +147,6 @@ fun LoginScreen() {
                 textAlign = TextAlign.Center,
                 lineHeight = 40.sp
             )
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                shape = RoundedCornerShape(24.dp),
-                colors = CardDefaults.cardColors(containerColor = QuizzyWhite)
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(24.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = "Let's Get you Signed in",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = Color.Black
-                    )
-
-                    Spacer(modifier = Modifier.height(24.dp))
-
-                    OutlinedTextField(
-                        value = schoolId,
-                        onValueChange = { schoolId = it },
-                        placeholder = { Text("School ID") },
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(12.dp),
-                        colors = OutlinedTextFieldDefaults.colors(
-                            unfocusedContainerColor = QuizzyInputBg,
-                            focusedContainerColor = QuizzyInputBg,
-                            unfocusedBorderColor = Color.Transparent,
-                            focusedBorderColor = Color.Gray
-                        )
-                    )
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    OutlinedTextField(
-                        value = studentId,
-                        onValueChange = { studentId = it },
-                        placeholder = { Text("Student ID") },
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(12.dp),
-                        colors = OutlinedTextFieldDefaults.colors(
-                            unfocusedContainerColor = QuizzyInputBg,
-                            focusedContainerColor = QuizzyInputBg,
-                            unfocusedBorderColor = Color.Transparent,
-                            focusedBorderColor = Color.Gray
-                        )
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(
-                onClick = { },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp),
-                shape = RoundedCornerShape(
-                    topStart = 12.dp,
-                    topEnd = 12.dp,
-                    bottomStart = 28.dp,
-                    bottomEnd = 28.dp
-                ),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = QuizzyBlack
-                )
-            ) {
-                Text(
-                    text = "Sign in",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium
-                )
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
         }
     }
 }
