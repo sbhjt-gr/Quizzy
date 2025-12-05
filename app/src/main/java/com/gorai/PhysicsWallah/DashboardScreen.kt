@@ -800,6 +800,7 @@ private fun TopicRow(topic: String, trend: String) {
         Text(
             text = topic,
             fontSize = 14.sp,
+            fontWeight = FontWeight.SemiBold,
             color = TextPrimary,
             modifier = Modifier.weight(1f)
         )
@@ -818,7 +819,7 @@ private fun TopicRow(topic: String, trend: String) {
                 text = if (isUp) "Improving" else "Needs Work",
                 fontSize = 12.sp,
                 color = if (isUp) GreenAccent else Color(0xFFE53935),
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Bold
             )
         }
     }
