@@ -122,29 +122,29 @@ fun LoginScreen() {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp),
+                    .height(350.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.avatar_glasses),
                     contentDescription = "Avatar Glasses",
                     modifier = Modifier
-                        .size(110.dp)
-                        .offset(x = (-70).dp, y = (-20).dp)
+                        .size(272.dp)
+                        .offset(x = (-60).dp, y = (-40).dp)
                 )
                 Image(
                     painter = painterResource(id = R.drawable.avatar_male),
                     contentDescription = "Avatar Male",
                     modifier = Modifier
-                        .size(100.dp)
-                        .offset(x = 70.dp, y = (-20).dp)
+                        .size(255.dp)
+                        .offset(x = 60.dp, y = (-40).dp)
                 )
                 Image(
                     painter = painterResource(id = R.drawable.avatar_woman),
                     contentDescription = "Avatar Woman",
                     modifier = Modifier
-                        .size(100.dp)
-                        .offset(y = 60.dp)
+                        .size(255.dp)
+                        .offset(y = 70.dp)
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
