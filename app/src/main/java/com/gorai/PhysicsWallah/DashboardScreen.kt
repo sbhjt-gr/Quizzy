@@ -481,12 +481,23 @@ private fun StreakIndicator(state: StreakState, label: String = "") {
     ) {
         when (state) {
             StreakState.COMPLETED, StreakState.CURRENT -> {
-                Icon(
-                    imageVector = Icons.Default.Check,
-                    contentDescription = "Completed",
-                    tint = Color.White,
-                    modifier = Modifier.size(16.dp)
-                )
+                Canvas(modifier = Modifier.size(22.dp)) {
+                    val strokeWidth = 4.dp.toPx()
+                    val path = Path().apply {
+                        moveTo(size.width * 0.15f, size.height * 0.5f)
+                        lineTo(size.width * 0.4f, size.height * 0.75f)
+                        lineTo(size.width * 0.85f, size.height * 0.25f)
+                    }
+                    drawPath(
+                        path = path,
+                        color = Color.White,
+                        style = Stroke(
+                            width = strokeWidth,
+                            cap = androidx.compose.ui.graphics.StrokeCap.Round,
+                            join = androidx.compose.ui.graphics.StrokeJoin.Round
+                        )
+                    )
+                }
             }
             StreakState.PENDING -> {
                 Text(
