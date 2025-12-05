@@ -1,5 +1,7 @@
 package com.gorai.PhysicsWallah
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,6 +31,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.delay
 import com.gorai.PhysicsWallah.ui.theme.*
 
 class WaveButtonShape : Shape {
@@ -62,6 +65,14 @@ class WaveButtonShape : Shape {
 fun LoginScreen(onSignIn: () -> Unit = {}) {
     var schoolId by remember { mutableStateOf("") }
     var studentId by remember { mutableStateOf("") }
+    var isSigningIn by remember { mutableStateOf(false) }
+
+    LaunchedEffect(isSigningIn) {
+        if (isSigningIn) {
+            delay(1000)
+            onSignIn()
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -173,63 +184,87 @@ fun LoginScreen(onSignIn: () -> Unit = {}) {
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.BottomCenter
             ) {
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 0.dp)
-                        .offset(y = 20.dp),
-                    shape = RoundedCornerShape(36.dp),
-                    colors = CardDefaults.cardColors(containerColor = QuizzyWhite)
+                androidx.compose.animation.AnimatedVisibility(
+                    visible = isSigningIn,
+                    enter = fadeIn(),
+                    exit = fadeOut()
                 ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 24.dp, vertical = 32.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = "Let's Get you Signed in",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = QuizzyBlack
-                        )
-                        Spacer(modifier = Modifier.height(24.dp))
-                        LoginInputField(
-                            value = schoolId,
-                            onValueChange = { schoolId = it },
-                            label = "School ID"
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
-                        LoginInputField(
-                            value = studentId,
-                            onValueChange = { studentId = it },
-                            label = "Student ID"
-                        )
-                        Spacer(modifier = Modifier.height(72.dp))
-                    }
+                    Text(
+                        text = "Signing you in...",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = QuizzyWhite,
+                        modifier = Modifier.padding(vertical = 100.dp)
+                    )
                 }
-
-                Surface(
-                    onClick = onSignIn,
-                    shape = WaveButtonShape(),
-                    color = QuizzyBlack,
-                    contentColor = QuizzyWhite,
-                    modifier = Modifier
-                        .offset(y = 20.dp)
-                        .width(220.dp)
+                androidx.compose.animation.AnimatedVisibility(
+                    visible = !isSigningIn,
+                    enter = fadeIn(),
+                    exit = fadeOut()
                 ) {
                     Box(
-                        modifier = Modifier
-                            .height(60.dp)
-                            .fillMaxWidth(),
-                        contentAlignment = Alignment.Center
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.BottomCenter
                     ) {
-                        Text(
-                            text = "Sign in",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            modifier = Modifier.offset(y = 3.dp)
-                        )
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 0.dp)
+                                .offset(y = 20.dp),
+                            shape = RoundedCornerShape(36.dp),
+                            colors = CardDefaults.cardColors(containerColor = QuizzyWhite)
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 24.dp, vertical = 32.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Text(
+                                    text = "Let's Get you Signed in",
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = QuizzyBlack
+                                )
+                                Spacer(modifier = Modifier.height(24.dp))
+                                LoginInputField(
+                                    value = schoolId,
+                                    onValueChange = { schoolId = it },
+                                    label = "School ID"
+                                )
+                                Spacer(modifier = Modifier.height(16.dp))
+                                LoginInputField(
+                                    value = studentId,
+                                    onValueChange = { studentId = it },
+                                    label = "Student ID"
+                                )
+                                Spacer(modifier = Modifier.height(72.dp))
+                            }
+                        }
+
+                        Surface(
+                            onClick = { isSigningIn = true },
+                            shape = WaveButtonShape(),
+                            color = QuizzyBlack,
+                            contentColor = QuizzyWhite,
+                            modifier = Modifier
+                                .offset(y = 20.dp)
+                                .width(220.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .height(60.dp)
+                                    .fillMaxWidth(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = "Sign in",
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    modifier = Modifier.offset(y = 3.dp)
+                                )
+                            }
+                        }
                     }
                 }
             }

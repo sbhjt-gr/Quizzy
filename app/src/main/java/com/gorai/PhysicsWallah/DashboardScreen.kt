@@ -20,16 +20,21 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Button
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -49,7 +54,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.gorai.PhysicsWallah.data.model.QuizDay
+import com.gorai.PhysicsWallah.data.model.StudentDashboard
+import com.gorai.PhysicsWallah.data.model.TopicPerformance
+import com.gorai.PhysicsWallah.ui.state.DashboardUiState
 import com.gorai.PhysicsWallah.ui.theme.PhysicsWallahTheme
+import com.gorai.PhysicsWallah.ui.viewmodel.DashboardViewModel
 
 val GreenTint = Color(0xFFF0FAF0)
 val GreenAccent = Color(0xFF4CAF50)
@@ -70,8 +81,56 @@ val TextSecondary = Color(0xFF757575)
 
 @Composable
 fun DashboardScreen(
-    userName: String = "Gaurav",
-    userClass: String = "10th Class"
+    viewModel: DashboardViewModel = viewModel(),
+    onSettingsClick: () -> Unit = {}
+) {
+    val state by viewModel.state.collectAsState()
+
+    when (val s = state) {
+        is DashboardUiState.Loading -> LoadingView()
+        is DashboardUiState.Success -> DashboardContent(s.data, onSettingsClick)
+        is DashboardUiState.Error -> ErrorView(s.message) { viewModel.loadDashboard() }
+    }
+}
+
+@Composable
+private fun LoadingView() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(BackgroundColor),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator(color = PurpleAccent)
+    }
+}
+
+@Composable
+private fun ErrorView(message: String?, onRetry: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(BackgroundColor),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(
+                text = message ?: "Something went wrong",
+                color = TextSecondary,
+                fontSize = 14.sp
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(onClick = onRetry) {
+                Text("Retry")
+            }
+        }
+    }
+}
+
+@Composable
+private fun DashboardContent(
+    data: StudentDashboard,
+    onSettingsClick: () -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -83,42 +142,80 @@ fun DashboardScreen(
     ) {
         item { Spacer(modifier = Modifier.height(8.dp)) }
         
-        item { GreetingHeader(userName, userClass) }
+        item { GreetingHeader(data.student.name, data.student.classInfo, onSettingsClick) }
         
-        item { StatusCardsRow() }
+        item {
+            StatusCardsRow(
+                availability = data.student.availability.status,
+                quizAttempts = data.student.quiz.attempts,
+                accuracy = data.student.accuracy.current
+            )
+        }
         
         item { TodaySummaryHeader() }
         
-        item { TodaySummaryCard() }
+        item {
+            TodaySummaryCard(
+                mood = data.todaySummary.mood,
+                description = data.todaySummary.description,
+                actionText = data.todaySummary.recommendedVideo.actionText
+            )
+        }
         
         item { WeeklyOverviewHeader() }
         
-        item { WeeklyOverviewCard() }
+        item {
+            WeeklyOverviewCard(
+                quizStreak = data.weeklyOverview.quizStreak,
+                accuracyPercent = data.weeklyOverview.overallAccuracy.percentage,
+                accuracyLabel = data.weeklyOverview.overallAccuracy.label,
+                topics = data.weeklyOverview.performanceByTopic
+            )
+        }
         
         item { Spacer(modifier = Modifier.height(16.dp)) }
     }
 }
 
 @Composable
-private fun GreetingHeader(name: String, classInfo: String) {
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Text(
-            text = "Hello $name!",
-            fontSize = 28.sp,
-            fontWeight = FontWeight.Bold,
-            color = TextPrimary
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = classInfo,
-            fontSize = 14.sp,
-            color = TextSecondary
-        )
+private fun GreetingHeader(name: String, classInfo: String, onSettingsClick: () -> Unit) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column {
+            Text(
+                text = "Hello $name!",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = TextPrimary
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = classInfo,
+                fontSize = 15.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = TextSecondary
+            )
+        }
+        IconButton(onClick = onSettingsClick) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_notification),
+                contentDescription = "Settings",
+                tint = Color.Unspecified,
+                modifier = Modifier.size(30.dp)
+            )
+        }
     }
 }
 
 @Composable
-private fun StatusCardsRow() {
+private fun StatusCardsRow(
+    availability: String,
+    quizAttempts: Int,
+    accuracy: String
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -131,7 +228,7 @@ private fun StatusCardsRow() {
             icon = null,
             iconRes = R.drawable.ic_availability,
             title = "Availability",
-            value = "Present"
+            value = availability
         )
         StatusCard(
             modifier = Modifier.weight(1f),
@@ -141,7 +238,7 @@ private fun StatusCardsRow() {
             icon = null,
             iconRes = R.drawable.ic_quiz,
             title = "Quiz",
-            value = "3 Attempt"
+            value = "$quizAttempts Attempt"
         )
         StatusCard(
             modifier = Modifier.weight(1f),
@@ -151,7 +248,7 @@ private fun StatusCardsRow() {
             icon = null,
             iconRes = R.drawable.ic_target,
             title = "Accuracy",
-            value = "72%"
+            value = accuracy
         )
     }
 }
@@ -177,7 +274,7 @@ private fun StatusCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(12.dp),
             horizontalAlignment = Alignment.Start
         ) {
             if (icon != null) {
@@ -195,18 +292,18 @@ private fun StatusCard(
                     modifier = Modifier.size(28.dp)
                 )
             }
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(12.dp))
             Text(
                 text = title,
-                fontSize = 13.sp,
-                color = TextSecondary
+                fontSize = 14.sp,
+                color = TextPrimary
             )
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(2.dp))
             Text(
                 text = value,
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Medium,
-                color = iconTint
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                color = if (value == "Present") iconTint else TextPrimary
             )
         }
     }
@@ -218,12 +315,17 @@ private fun TodaySummaryHeader() {
         text = "Today's Summary",
         fontSize = 20.sp,
         fontWeight = FontWeight.Bold,
-        color = TextPrimary
+        color = TextPrimary,
+        modifier = Modifier.padding(vertical = 8.dp)
     )
 }
 
 @Composable
-private fun TodaySummaryCard() {
+private fun TodaySummaryCard(
+    mood: String,
+    description: String,
+    actionText: String
+) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
@@ -242,18 +344,18 @@ private fun TodaySummaryCard() {
                 painter = painterResource(id = R.drawable.ic_search_focus),
                 contentDescription = "Focus",
                 tint = Color.Unspecified,
-                modifier = Modifier.size(80.dp)
+                modifier = Modifier.size(80.dp).offset(x = 8.dp)
             )
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(5.dp))
             Text(
-                text = "Focused",
+                text = mood,
                 fontSize = 22.sp,
-                fontWeight = FontWeight.SemiBold,
+                fontWeight = FontWeight.Bold,
                 color = PurpleAccent
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "\"Struggles with Apply-level Math today.\"",
+                text = "\"$description\"",
                 fontSize = 13.sp,
                 color = TextSecondary
             )
@@ -273,7 +375,7 @@ private fun TodaySummaryCard() {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Watch: Apply Pythagoras Theorem",
+                    text = actionText,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium,
                     color = Color.White,
@@ -290,7 +392,8 @@ private fun WeeklyOverviewHeader() {
         text = "Weekly Overview",
         fontSize = 20.sp,
         fontWeight = FontWeight.Bold,
-        color = TextPrimary
+        color = TextPrimary,
+        modifier = Modifier.padding(vertical = 8.dp)
     )
 }
 
@@ -298,7 +401,12 @@ val DividerColor = Color(0xFFEEEEEE)
 val RedProgress = Color(0xFFEF5350)
 
 @Composable
-private fun WeeklyOverviewCard() {
+private fun WeeklyOverviewCard(
+    quizStreak: List<QuizDay>,
+    accuracyPercent: Int,
+    accuracyLabel: String,
+    topics: List<TopicPerformance>
+) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
@@ -311,11 +419,11 @@ private fun WeeklyOverviewCard() {
                 .fillMaxWidth()
                 .padding(20.dp)
         ) {
-            QuizStreakSection()
+            QuizStreakSection(quizStreak)
             Spacer(modifier = Modifier.height(20.dp))
-            AccuracySection()
-            Spacer(modifier = Modifier.height(50.dp))
-            PerformanceSection()
+            AccuracySection(accuracyPercent, accuracyLabel)
+            Spacer(modifier = Modifier.height(20.dp))
+            PerformanceSection(topics)
         }
     }
 }
@@ -409,7 +517,7 @@ private fun FlashcardIcon(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun QuizStreakSection() {
+private fun QuizStreakSection(quizStreak: List<QuizDay>) {
     Column {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -418,9 +526,10 @@ private fun QuizStreakSection() {
         ) {
             Text(
                 text = "Quiz Streak",
-                fontSize = 17.sp,
+                fontSize = 19.sp,
                 fontWeight = FontWeight.Bold,
-                color = TextPrimary
+                color = TextPrimary,
+                modifier = Modifier.padding(bottom = 4.dp)
             )
             FlashcardIcon(modifier = Modifier.size(32.dp))
         }
@@ -438,15 +547,14 @@ private fun QuizStreakSection() {
         Spacer(modifier = Modifier.height(12.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            val days = listOf("M", "T", "W", "T", "F", "S", "S")
-            days.forEachIndexed { index, day ->
-                when {
-                    index < 4 -> StreakIndicator(state = StreakState.COMPLETED)
-                    index == 4 -> StreakIndicator(state = StreakState.CURRENT)
-                    else -> StreakIndicator(state = StreakState.PENDING, label = day)
-                }
+            quizStreak.forEach { day ->
+                val isDone = day.status == "done"
+                StreakIndicator(
+                    state = if (isDone) StreakState.COMPLETED else StreakState.PENDING,
+                    label = day.day
+                )
             }
         }
     }
@@ -458,7 +566,7 @@ enum class StreakState { COMPLETED, CURRENT, PENDING }
 private fun StreakIndicator(state: StreakState, label: String = "") {
     Box(
         modifier = Modifier
-            .size(36.dp)
+            .size(28.dp)
             .then(
                 when (state) {
                     StreakState.COMPLETED -> Modifier
@@ -482,17 +590,28 @@ private fun StreakIndicator(state: StreakState, label: String = "") {
     ) {
         when (state) {
             StreakState.COMPLETED, StreakState.CURRENT -> {
-                Icon(
-                    imageVector = Icons.Default.Check,
-                    contentDescription = "Completed",
-                    tint = Color.White,
-                    modifier = Modifier.size(20.dp)
-                )
+                Canvas(modifier = Modifier.size(22.dp)) {
+                    val strokeWidth = 4.dp.toPx()
+                    val path = Path().apply {
+                        moveTo(size.width * 0.15f, size.height * 0.5f)
+                        lineTo(size.width * 0.4f, size.height * 0.75f)
+                        lineTo(size.width * 0.85f, size.height * 0.25f)
+                    }
+                    drawPath(
+                        path = path,
+                        color = Color.White,
+                        style = Stroke(
+                            width = strokeWidth,
+                            cap = androidx.compose.ui.graphics.StrokeCap.Round,
+                            join = androidx.compose.ui.graphics.StrokeJoin.Round
+                        )
+                    )
+                }
             }
             StreakState.PENDING -> {
                 Text(
                     text = label,
-                    fontSize = 12.sp,
+                    fontSize = 10.sp,
                     fontWeight = FontWeight.Medium,
                     color = TextSecondary
                 )
@@ -519,7 +638,7 @@ private fun Modifier.drawDashedBorder(): Modifier = this.then(
 )
 
 @Composable
-private fun AccuracySection() {
+private fun AccuracySection(percentage: Int, label: String) {
     Column {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -528,10 +647,10 @@ private fun AccuracySection() {
         ) {
             Text(
                 text = "Accuracy",
-                fontSize = 17.sp,
+                fontSize = 19.sp,
                 fontWeight = FontWeight.Bold,
                 color = TextPrimary,
-                modifier = Modifier.padding(bottom = 2.dp)
+                modifier = Modifier.padding(bottom = 6.dp)
             )
             AccuracyIcon(modifier = Modifier.size(48.dp).offset(y = 8.dp))
         }
@@ -543,7 +662,7 @@ private fun AccuracySection() {
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = "68% correct",
+            text = label,
             fontSize = 14.sp,
             color = TextSecondary
         )
@@ -557,7 +676,7 @@ private fun AccuracySection() {
         ) {
             Box(
                 modifier = Modifier
-                    .fillMaxWidth(0.68f)
+                    .fillMaxWidth(percentage / 100f)
                     .height(6.dp)
                     .clip(RoundedCornerShape(3.dp))
                     .background(RedProgress)
@@ -636,7 +755,7 @@ private fun AccuracyIcon(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun PerformanceSection() {
+private fun PerformanceSection(topics: List<TopicPerformance>) {
     Column {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -645,9 +764,10 @@ private fun PerformanceSection() {
         ) {
             Text(
                 text = "Performance by Topic",
-                fontSize = 17.sp,
+                fontSize = 19.sp,
                 fontWeight = FontWeight.Bold,
-                color = TextPrimary
+                color = TextPrimary,
+                modifier = Modifier.padding(bottom = 4.dp)
             )
             BarChartIcon(modifier = Modifier.size(27.dp).offset(y = 4.dp))
         }
@@ -662,6 +782,46 @@ private fun PerformanceSection() {
                     )
                 )
         )
+        Spacer(modifier = Modifier.height(12.dp))
+        topics.forEach { topic ->
+            TopicRow(topic.topic, topic.trend)
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+    }
+}
+
+@Composable
+private fun TopicRow(topic: String, trend: String) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = topic,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = TextPrimary,
+            modifier = Modifier.weight(1f)
+        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            val isUp = trend == "up"
+            Icon(
+                painter = painterResource(
+                    id = if (isUp) R.drawable.ic_trend_up else R.drawable.ic_trend_down
+                ),
+                contentDescription = trend,
+                tint = if (isUp) GreenAccent else Color(0xFFE53935),
+                modifier = Modifier.size(16.dp)
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(
+                text = if (isUp) "Improving" else "Needs Work",
+                fontSize = 12.sp,
+                color = if (isUp) GreenAccent else Color(0xFFE53935),
+                fontWeight = FontWeight.Bold
+            )
+        }
     }
 }
 
