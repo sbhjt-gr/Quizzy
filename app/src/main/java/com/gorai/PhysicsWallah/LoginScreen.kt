@@ -32,14 +32,26 @@ class WaveButtonShape : Shape {
             moveTo(0f, size.height)
             
             cubicTo(
-                size.width * 0.35f, size.height,
-                size.width * 0.3f, 0f,
+                size.width * 0.1f, size.height,
+                size.width * 0.15f, size.height * 0.65f,
+                size.width * 0.32f, size.height * 0.45f
+            )
+            
+            cubicTo(
+                size.width * 0.36f, size.height * 0.25f,
+                size.width * 0.4f, 0f,
                 size.width * 0.5f, 0f
             )
             
             cubicTo(
-                size.width * 0.7f, 0f,
-                size.width * 0.65f, size.height,
+                size.width * 0.6f, 0f,
+                size.width * 0.64f, size.height * 0.25f,
+                size.width * 0.68f, size.height * 0.45f
+            )
+            
+            cubicTo(
+                size.width * 0.85f, size.height * 0.65f,
+                size.width * 0.9f, size.height,
                 size.width, size.height
             )
             
