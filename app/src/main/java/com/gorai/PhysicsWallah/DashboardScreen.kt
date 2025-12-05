@@ -538,24 +538,29 @@ private fun AccuracySection() {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.Top
         ) {
-            Column {
-                Text(
-                    text = "Accuracy",
-                    fontSize = 17.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = TextPrimary
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = "68% correct",
-                    fontSize = 14.sp,
-                    color = TextSecondary
-                )
-            }
-            AccuracyIcon(modifier = Modifier.size(40.dp))
+            Text(
+                text = "Accuracy",
+                fontSize = 17.sp,
+                fontWeight = FontWeight.Bold,
+                color = TextPrimary
+            )
+            AccuracyIcon(modifier = Modifier.size(48.dp))
         }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .offset(y = (-4).dp)
+                .background(Brush.horizontalGradient(listOf(Color.White, Color(0xFF1B2124))))
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = "68% correct",
+            fontSize = 14.sp,
+            color = TextSecondary
+        )
         Spacer(modifier = Modifier.height(8.dp))
         Box(
             modifier = Modifier
@@ -572,14 +577,6 @@ private fun AccuracySection() {
                     .background(RedProgress)
             )
         }
-        Spacer(modifier = Modifier.height(12.dp))
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(1.dp)
-                .offset(y = (-4).dp)
-                .background(Brush.horizontalGradient(listOf(Color.White, Color(0xFF1B2124))))
-        )
     }
 }
 
@@ -587,41 +584,41 @@ private fun AccuracySection() {
 private fun AccuracyIcon(modifier: Modifier = Modifier) {
     Canvas(modifier = modifier) {
         val centerX = size.width / 2
-        val centerY = size.height / 2
-        val outerRadius = size.minDimension / 2 * 0.75f
+        val centerY = size.height * 0.4f
+        val outerRadius = size.minDimension / 2 * 0.55f
         val red = Color(0xFFED1D31)
         val white = Color(0xFFF1F2F2)
         val stroke = Color(0xFF1B2124)
         val brown = Color(0xFF874300)
         val blue = Color(0xFF5190C4)
         val strokeWidth = 1.dp.toPx()
-        val standWidth = 2.5.dp.toPx()
-        val standHeight = 12.dp.toPx()
-        rotate(degrees = 30f, pivot = Offset(centerX - outerRadius * 0.5f, centerY + outerRadius * 0.6f)) {
+        val standWidth = 2.dp.toPx()
+        val standHeight = size.height * 0.4f
+        rotate(degrees = 30f, pivot = Offset(centerX - outerRadius * 0.5f, centerY + outerRadius * 0.5f)) {
             drawRoundRect(
                 color = brown,
-                topLeft = Offset(centerX - outerRadius * 0.5f - standWidth / 2, centerY + outerRadius * 0.6f),
+                topLeft = Offset(centerX - outerRadius * 0.5f - standWidth / 2, centerY + outerRadius * 0.5f),
                 size = Size(standWidth, standHeight),
                 cornerRadius = CornerRadius(standWidth / 2, standWidth / 2)
             )
             drawRoundRect(
                 color = stroke,
-                topLeft = Offset(centerX - outerRadius * 0.5f - standWidth / 2, centerY + outerRadius * 0.6f),
+                topLeft = Offset(centerX - outerRadius * 0.5f - standWidth / 2, centerY + outerRadius * 0.5f),
                 size = Size(standWidth, standHeight),
                 cornerRadius = CornerRadius(standWidth / 2, standWidth / 2),
                 style = Stroke(width = 0.5.dp.toPx())
             )
         }
-        rotate(degrees = -30f, pivot = Offset(centerX + outerRadius * 0.5f, centerY + outerRadius * 0.6f)) {
+        rotate(degrees = -30f, pivot = Offset(centerX + outerRadius * 0.5f, centerY + outerRadius * 0.5f)) {
             drawRoundRect(
                 color = brown,
-                topLeft = Offset(centerX + outerRadius * 0.5f - standWidth / 2, centerY + outerRadius * 0.6f),
+                topLeft = Offset(centerX + outerRadius * 0.5f - standWidth / 2, centerY + outerRadius * 0.5f),
                 size = Size(standWidth, standHeight),
                 cornerRadius = CornerRadius(standWidth / 2, standWidth / 2)
             )
             drawRoundRect(
                 color = stroke,
-                topLeft = Offset(centerX + outerRadius * 0.5f - standWidth / 2, centerY + outerRadius * 0.6f),
+                topLeft = Offset(centerX + outerRadius * 0.5f - standWidth / 2, centerY + outerRadius * 0.5f),
                 size = Size(standWidth, standHeight),
                 cornerRadius = CornerRadius(standWidth / 2, standWidth / 2),
                 style = Stroke(width = 0.5.dp.toPx())
