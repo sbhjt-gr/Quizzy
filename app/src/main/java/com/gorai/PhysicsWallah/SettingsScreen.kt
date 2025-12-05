@@ -15,9 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -28,7 +26,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -92,8 +89,8 @@ fun SettingsScreen(onBackClick: () -> Unit = {}) {
             item { SectionTitle("Settings") }
             item { Spacer(modifier = Modifier.height(8.dp)) }
             item {
-                SettingsRow(
-                    icon = Icons.Filled.Person,
+                SettingsRowPainter(
+                    iconRes = R.drawable.ic_switch_child,
                     title = "Switch Child",
                     subtitle = "Change active child profile"
                 )
@@ -101,15 +98,15 @@ fun SettingsScreen(onBackClick: () -> Unit = {}) {
             item { Spacer(modifier = Modifier.height(4.dp)) }
             item {
                 SettingsRowPainter(
-                    iconRes = R.drawable.ic_globe,
+                    iconRes = R.drawable.ic_language,
                     title = "Language",
                     subtitle = "English"
                 )
             }
             item { Spacer(modifier = Modifier.height(4.dp)) }
             item {
-                SettingsRow(
-                    icon = Icons.AutoMirrored.Filled.ExitToApp,
+                SettingsRowPainter(
+                    iconRes = R.drawable.ic_logout,
                     title = "Logout",
                     subtitle = "Sign out of your account",
                     iconTint = LogoutRed,
@@ -153,7 +150,7 @@ private fun SettingsTopBar(onBackClick: () -> Unit) {
 private fun SectionTitle(title: String) {
     Text(
         text = title,
-        fontSize = 16.sp,
+        fontSize = 18.sp,
         fontWeight = FontWeight.ExtraBold,
         color = TextPrimary
     )
@@ -203,8 +200,8 @@ private fun NotificationCard(
 }
 
 @Composable
-private fun SettingsRow(
-    icon: ImageVector,
+private fun SettingsRowPainter(
+    iconRes: Int,
     title: String,
     subtitle: String,
     iconTint: Color = TextPrimary,
@@ -217,7 +214,7 @@ private fun SettingsRow(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            imageVector = icon,
+            painter = painterResource(id = iconRes),
             contentDescription = title,
             tint = iconTint,
             modifier = Modifier.size(24.dp)
@@ -229,42 +226,6 @@ private fun SettingsRow(
                 fontSize = 15.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = titleColor
-            )
-            Spacer(modifier = Modifier.height(2.dp))
-            Text(
-                text = subtitle,
-                fontSize = 12.sp,
-                color = TextSecondary
-            )
-        }
-    }
-}
-
-@Composable
-private fun SettingsRowPainter(
-    iconRes: Int,
-    title: String,
-    subtitle: String
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            painter = painterResource(id = iconRes),
-            contentDescription = title,
-            tint = TextPrimary,
-            modifier = Modifier.size(24.dp)
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        Column {
-            Text(
-                text = title,
-                fontSize = 15.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = TextPrimary
             )
             Spacer(modifier = Modifier.height(2.dp))
             Text(
