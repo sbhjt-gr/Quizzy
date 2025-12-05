@@ -170,7 +170,7 @@ private fun NotificationCard(
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(0.dp),
         colors = CardDefaults.cardColors(containerColor = bgColor),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
@@ -179,7 +179,6 @@ private fun NotificationCard(
                 modifier = Modifier
                     .width(6.dp)
                     .height(72.dp)
-                    .clip(RoundedCornerShape(topStart = 12.dp, bottomStart = 12.dp))
                     .background(accentColor)
             )
             Column(
