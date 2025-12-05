@@ -29,14 +29,21 @@ class WaveButtonShape : Shape {
         density: Density
     ): Outline {
         val path = Path().apply {
-            val waveDepth = 40f
+            val waveHeight = size.height * 0.55f
             val bottomRadius = 50f
 
-            moveTo(0f, waveDepth)
+            moveTo(0f, waveHeight)
 
-            quadraticBezierTo(
-                size.width * 0.5f, -waveDepth,
-                size.width, waveDepth
+            cubicTo(
+                size.width * 0.20f, waveHeight,
+                size.width * 0.20f, 0f,
+                size.width * 0.5f, 0f
+            )
+
+            cubicTo(
+                size.width * 0.80f, 0f,
+                size.width * 0.80f, waveHeight,
+                size.width, waveHeight
             )
 
             lineTo(size.width, size.height - bottomRadius)
@@ -154,7 +161,6 @@ fun LoginScreen() {
                     shape = WaveButtonShape(),
                     color = QuizzyBlack,
                     contentColor = QuizzyWhite,
-                    border = BorderStroke(1.dp, QuizzyWhite),
                     modifier = Modifier
                         .offset(y = 32.dp)
                         .width(180.dp)
