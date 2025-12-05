@@ -88,6 +88,15 @@ fun LoginScreen() {
                 .rotate(5f)
         )
 
+        Image(
+            painter = painterResource(id = R.drawable.ic_circle_green),
+            contentDescription = "Green Circle",
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .offset(x = 20.dp, y = 40.dp)
+                .size(60.dp)
+        )
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
