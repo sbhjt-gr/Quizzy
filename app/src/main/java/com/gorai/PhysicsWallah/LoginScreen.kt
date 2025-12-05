@@ -104,10 +104,10 @@ fun LoginScreen() {
 
         Image(
             painter = painterResource(id = R.drawable.ic_pw),
-            contentDescription = "Quizzy Icon",
+            contentDescription = "Pi Icon",
             modifier = Modifier
                 .align(Alignment.CenterStart)
-                .offset(x = 16.dp, y = (-120).dp)
+                .offset(x = 16.dp, y = (-80).dp)
                 .size(35.dp)
                 .rotate(5f)
         )
@@ -130,31 +130,31 @@ fun LoginScreen() {
                     contentDescription = "Avatar Male",
                     modifier = Modifier
                         .size(400.dp)
-                        .offset(x = (-30).dp, y = 0.dp)
+                        .offset(x = (-30).dp, y = (-10).dp)
                 )
                 Image(
                     painter = painterResource(id = R.drawable.avatar_male),
                     contentDescription = "Avatar Glasses",
                     modifier = Modifier
                         .size(260.dp)
-                        .offset(x = 67.dp, y = (-17).dp)
+                        .offset(x = 67.dp, y = (-27).dp)
                 )
                 Image(
                     painter = painterResource(id = R.drawable.avatar_woman),
                     contentDescription = "Avatar Woman",
                     modifier = Modifier
                         .size(300.dp)
-                        .offset(x = 20.dp, y = 125.dp)
+                        .offset(x = 20.dp, y = 115.dp)
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = "Welcome to\nQuizzy!",
-                fontSize = 48.sp,
+                fontSize = 40.sp,
                 fontWeight = FontWeight.Bold,
                 color = QuizzyWhite,
                 textAlign = TextAlign.Center,
-                lineHeight = 58.sp
+                lineHeight = 48.sp
             )
             Spacer(modifier = Modifier.height(32.dp))
             Box(
