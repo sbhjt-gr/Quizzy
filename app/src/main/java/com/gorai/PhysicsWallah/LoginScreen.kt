@@ -97,6 +97,15 @@ fun LoginScreen() {
                 .size(60.dp)
         )
 
+        Image(
+            painter = painterResource(id = R.drawable.ic_circle_pink),
+            contentDescription = "Pink Circle",
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .offset(x = (-20).dp, y = 70.dp)
+                .size(60.dp)
+        )
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
