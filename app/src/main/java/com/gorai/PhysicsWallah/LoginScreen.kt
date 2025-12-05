@@ -119,6 +119,35 @@ fun LoginScreen() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Bottom
         ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.avatar_male),
+                    contentDescription = "Avatar Male",
+                    modifier = Modifier
+                        .size(110.dp)
+                        .offset(x = (-70).dp, y = (-20).dp)
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.avatar_glasses),
+                    contentDescription = "Avatar Glasses",
+                    modifier = Modifier
+                        .size(100.dp)
+                        .offset(x = 70.dp, y = (-20).dp)
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.avatar_woman),
+                    contentDescription = "Avatar Woman",
+                    modifier = Modifier
+                        .size(100.dp)
+                        .offset(y = 60.dp)
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = "Welcome to\nQuizzy!",
                 fontSize = 48.sp,
