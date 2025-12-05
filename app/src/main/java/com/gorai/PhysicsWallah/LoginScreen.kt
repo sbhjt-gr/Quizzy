@@ -181,10 +181,10 @@ private fun LoginInputField(
         placeholder = { Text(text = label, color = QuizzyBlack.copy(alpha = 0.4f)) },
         singleLine = true,
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(48.dp),
+        shape = RoundedCornerShape(20.dp),
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = QuizzyLightBlue,
-            unfocusedBorderColor = QuizzyInputBg,
+            unfocusedBorderColor = QuizzyBlack.copy(alpha = 0.15f),
             focusedContainerColor = QuizzyInputBg,
             unfocusedContainerColor = QuizzyInputBg,
             focusedTextColor = QuizzyBlack,
