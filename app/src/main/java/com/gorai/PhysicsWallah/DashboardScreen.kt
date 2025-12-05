@@ -267,7 +267,7 @@ private fun TodaySummaryCard() {
             Text(
                 text = "Focused",
                 fontSize = 22.sp,
-                fontWeight = FontWeight.SemiBold,
+                fontWeight = FontWeight.Bold,
                 color = PurpleAccent
             )
             Spacer(modifier = Modifier.height(8.dp))

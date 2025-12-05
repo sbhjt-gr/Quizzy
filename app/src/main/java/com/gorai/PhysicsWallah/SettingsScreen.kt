@@ -187,8 +187,8 @@ private fun NotificationCard(
             ) {
                 Text(
                     text = title,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.SemiBold,
                     color = TextPrimary
                 )
                 Spacer(modifier = Modifier.height(4.dp))
@@ -226,8 +226,8 @@ private fun SettingsRow(
         Column {
             Text(
                 text = title,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Medium,
+                fontSize = 15.sp,
+                fontWeight = FontWeight.SemiBold,
                 color = titleColor
             )
             Spacer(modifier = Modifier.height(2.dp))
@@ -262,8 +262,8 @@ private fun SettingsRowPainter(
         Column {
             Text(
                 text = title,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Medium,
+                fontSize = 15.sp,
+                fontWeight = FontWeight.SemiBold,
                 color = TextPrimary
             )
             Spacer(modifier = Modifier.height(2.dp))
