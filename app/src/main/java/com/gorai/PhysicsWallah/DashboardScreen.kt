@@ -538,13 +538,14 @@ private fun AccuracySection() {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.Top
+            verticalAlignment = Alignment.Bottom
         ) {
             Text(
                 text = "Accuracy",
                 fontSize = 17.sp,
                 fontWeight = FontWeight.Bold,
-                color = TextPrimary
+                color = TextPrimary,
+                modifier = Modifier.padding(bottom = 6.dp)
             )
             AccuracyIcon(modifier = Modifier.size(48.dp))
         }
@@ -552,7 +553,6 @@ private fun AccuracySection() {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(1.dp)
-                .offset(y = (-4).dp)
                 .background(Brush.horizontalGradient(listOf(Color.White, Color(0xFF1B2124))))
         )
         Spacer(modifier = Modifier.height(4.dp))
