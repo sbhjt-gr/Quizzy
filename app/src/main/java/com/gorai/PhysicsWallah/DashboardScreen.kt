@@ -534,7 +534,7 @@ private fun Modifier.drawDashedBorder(): Modifier = this.then(
 
 @Composable
 private fun AccuracySection() {
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+    Column {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -554,14 +554,9 @@ private fun AccuracySection() {
                     color = TextSecondary
                 )
             }
-            Icon(
-                painter = painterResource(id = R.drawable.ic_target),
-                contentDescription = "Target",
-                tint = Color.Unspecified,
-                modifier = Modifier.size(40.dp)
-            )
+            AccuracyIcon(modifier = Modifier.size(40.dp))
         }
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -577,6 +572,35 @@ private fun AccuracySection() {
                     .background(RedProgress)
             )
         }
+        Spacer(modifier = Modifier.height(12.dp))
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .offset(y = (-4).dp)
+                .background(Brush.horizontalGradient(listOf(Color.White, Color(0xFF1B2124))))
+        )
+    }
+}
+
+@Composable
+private fun AccuracyIcon(modifier: Modifier = Modifier) {
+    Canvas(modifier = modifier) {
+        val centerX = size.width / 2
+        val centerY = size.height / 2
+        val outerRadius = size.minDimension / 2 * 0.9f
+        val red = Color(0xFFED1D31)
+        val white = Color(0xFFF1F2F2)
+        val stroke = Color(0xFF1B2124)
+        val strokeWidth = 1.dp.toPx()
+        drawCircle(color = red, radius = outerRadius, center = Offset(centerX, centerY))
+        drawCircle(color = stroke, radius = outerRadius, center = Offset(centerX, centerY), style = Stroke(width = strokeWidth))
+        val ring1 = outerRadius * 0.78f
+        drawCircle(color = white, radius = ring1, center = Offset(centerX, centerY))
+        val ring2 = outerRadius * 0.52f
+        drawCircle(color = red, radius = ring2, center = Offset(centerX, centerY))
+        val centerDot = outerRadius * 0.26f
+        drawCircle(color = white, radius = centerDot, center = Offset(centerX, centerY))
     }
 }
 
