@@ -127,24 +127,24 @@ fun LoginScreen() {
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.avatar_glasses),
-                    contentDescription = "Avatar Glasses",
+                    contentDescription = "Avatar Male",
                     modifier = Modifier
-                        .size(272.dp)
-                        .offset(x = (-60).dp, y = (-40).dp)
+                        .size(400.dp)
+                        .offset(x = (-30).dp, y = (-35).dp)
                 )
                 Image(
                     painter = painterResource(id = R.drawable.avatar_male),
-                    contentDescription = "Avatar Male",
+                    contentDescription = "Avatar Glasses",
                     modifier = Modifier
-                        .size(255.dp)
-                        .offset(x = 60.dp, y = (-40).dp)
+                        .size(260.dp)
+                        .offset(x = 67.dp, y = (-52).dp)
                 )
                 Image(
                     painter = painterResource(id = R.drawable.avatar_woman),
                     contentDescription = "Avatar Woman",
                     modifier = Modifier
-                        .size(255.dp)
-                        .offset(y = 70.dp)
+                        .size(300.dp)
+                        .offset(x = 20.dp, y = 90.dp)
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
