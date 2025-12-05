@@ -129,7 +129,7 @@ private fun GreetingHeader(name: String, classInfo: String, onSettingsClick: () 
                 painter = painterResource(id = R.drawable.ic_notification),
                 contentDescription = "Settings",
                 tint = Color.Unspecified,
-                modifier = Modifier.size(28.dp)
+                modifier = Modifier.size(30.dp)
             )
         }
     }
