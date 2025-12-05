@@ -438,7 +438,7 @@ private fun QuizStreakSection() {
         Spacer(modifier = Modifier.height(12.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             val days = listOf("M", "T", "W", "T", "F", "S", "S")
             days.forEachIndexed { index, day ->
@@ -457,7 +457,7 @@ enum class StreakState { COMPLETED, CURRENT, PENDING }
 private fun StreakIndicator(state: StreakState, label: String = "") {
     Box(
         modifier = Modifier
-            .size(36.dp)
+            .size(28.dp)
             .then(
                 when (state) {
                     StreakState.COMPLETED -> Modifier
@@ -485,13 +485,13 @@ private fun StreakIndicator(state: StreakState, label: String = "") {
                     imageVector = Icons.Default.Check,
                     contentDescription = "Completed",
                     tint = Color.White,
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(16.dp)
                 )
             }
             StreakState.PENDING -> {
                 Text(
                     text = label,
-                    fontSize = 12.sp,
+                    fontSize = 10.sp,
                     fontWeight = FontWeight.Medium,
                     color = TextSecondary
                 )
