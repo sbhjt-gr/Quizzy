@@ -545,9 +545,9 @@ private fun AccuracySection() {
                 fontSize = 17.sp,
                 fontWeight = FontWeight.Bold,
                 color = TextPrimary,
-                modifier = Modifier.padding(bottom = 6.dp)
+                modifier = Modifier.padding(bottom = 2.dp)
             )
-            AccuracyIcon(modifier = Modifier.size(48.dp))
+            AccuracyIcon(modifier = Modifier.size(48.dp).offset(y = 8.dp))
         }
         Box(
             modifier = Modifier
@@ -663,9 +663,9 @@ private fun PerformanceSection() {
                 fontWeight = FontWeight.Bold,
                 color = TextPrimary
             )
-            BarChartIcon(modifier = Modifier.size(27.dp))
+            BarChartIcon(modifier = Modifier.size(27.dp).offset(y = 4.dp))
         }
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(2.dp))
         Box(
             modifier = Modifier
                 .fillMaxWidth()
