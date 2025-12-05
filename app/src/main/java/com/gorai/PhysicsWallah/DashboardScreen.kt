@@ -216,14 +216,14 @@ private fun StatusCard(
             Spacer(modifier = Modifier.height(12.dp))
             Text(
                 text = title,
-                fontSize = 13.sp,
+                fontSize = 14.sp,
                 color = TextPrimary
             )
             Spacer(modifier = Modifier.height(2.dp))
             Text(
                 text = value,
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Medium,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
                 color = if (value == "Present") iconTint else TextPrimary
             )
         }
