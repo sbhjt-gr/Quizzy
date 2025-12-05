@@ -1,6 +1,7 @@
 package com.gorai.PhysicsWallah
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -14,10 +15,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -97,6 +100,16 @@ fun LoginScreen() {
                 .offset(x = (-20).dp, y = 20.dp)
                 .clip(CircleShape)
                 .background(QuizzyYellow.copy(alpha = 0.2f))
+        )
+
+        Image(
+            painter = painterResource(id = R.drawable.ic_pw),
+            contentDescription = "Quizzy Icon",
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+                .offset(x = 16.dp, y = 40.dp)
+                .size(48.dp)
+                .rotate(110f)
         )
 
         Column(
