@@ -33,12 +33,12 @@ class WaveButtonShape : Shape {
 
             cubicTo(
                 size.width * 0.25f, size.height,
-                size.width * 0.15f, 0f,
+                size.width * 0.25f, 0f,
                 size.width * 0.5f, 0f
             )
 
             cubicTo(
-                size.width * 0.85f, 0f,
+                size.width * 0.75f, 0f,
                 size.width * 0.75f, size.height,
                 size.width, size.height
             )
@@ -146,7 +146,7 @@ fun LoginScreen() {
                     contentColor = QuizzyWhite,
                     modifier = Modifier
                         .offset(y = 20.dp)
-                        .width(180.dp)
+                        .width(220.dp)
                 ) {
                     Box(
                         modifier = Modifier
