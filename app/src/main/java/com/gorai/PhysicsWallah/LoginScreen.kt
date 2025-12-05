@@ -79,6 +79,15 @@ fun LoginScreen() {
         )
 
         Image(
+            painter = painterResource(id = R.drawable.ic_circle_blue),
+            contentDescription = "Blue Circle",
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+                .offset(x = 35.dp, y = (-160).dp)
+                .size(14.dp)
+        )
+
+        Image(
             painter = painterResource(id = R.drawable.ic_pw_badge),
             contentDescription = "PW Badge",
             modifier = Modifier
