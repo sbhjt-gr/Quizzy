@@ -112,14 +112,15 @@ private fun GreetingHeader(name: String, classInfo: String, onSettingsClick: () 
         Column {
             Text(
                 text = "Hello $name!",
-                fontSize = 28.sp,
+                fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = TextPrimary
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = classInfo,
-                fontSize = 14.sp,
+                fontSize = 15.sp,
+                fontWeight = FontWeight.SemiBold,
                 color = TextSecondary
             )
         }
