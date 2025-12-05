@@ -438,9 +438,10 @@ private fun QuizStreakSection() {
         ) {
             Text(
                 text = "Quiz Streak",
-                fontSize = 17.sp,
+                fontSize = 19.sp,
                 fontWeight = FontWeight.Bold,
-                color = TextPrimary
+                color = TextPrimary,
+                modifier = Modifier.padding(bottom = 4.dp)
             )
             FlashcardIcon(modifier = Modifier.size(32.dp))
         }
@@ -558,10 +559,10 @@ private fun AccuracySection() {
         ) {
             Text(
                 text = "Accuracy",
-                fontSize = 17.sp,
+                fontSize = 19.sp,
                 fontWeight = FontWeight.Bold,
                 color = TextPrimary,
-                modifier = Modifier.padding(bottom = 2.dp)
+                modifier = Modifier.padding(bottom = 6.dp)
             )
             AccuracyIcon(modifier = Modifier.size(48.dp).offset(y = 8.dp))
         }
@@ -675,9 +676,10 @@ private fun PerformanceSection() {
         ) {
             Text(
                 text = "Performance by Topic",
-                fontSize = 17.sp,
+                fontSize = 19.sp,
                 fontWeight = FontWeight.Bold,
-                color = TextPrimary
+                color = TextPrimary,
+                modifier = Modifier.padding(bottom = 4.dp)
             )
             BarChartIcon(modifier = Modifier.size(27.dp).offset(y = 4.dp))
         }
