@@ -125,9 +125,9 @@ private fun GreetingHeader(name: String, classInfo: String, onSettingsClick: () 
         }
         IconButton(onClick = onSettingsClick) {
             Icon(
-                imageVector = Icons.Default.Notifications,
+                painter = painterResource(id = R.drawable.ic_notification),
                 contentDescription = "Settings",
-                tint = TextPrimary,
+                tint = Color.Unspecified,
                 modifier = Modifier.size(28.dp)
             )
         }
