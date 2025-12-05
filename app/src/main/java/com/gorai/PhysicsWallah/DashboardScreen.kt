@@ -436,7 +436,7 @@ private fun QuizStreakSection() {
                 fontWeight = FontWeight.Bold,
                 color = TextPrimary
             )
-            FlashcardIcon(modifier = Modifier.size(44.dp))
+            FlashcardIcon(modifier = Modifier.size(32.dp))
         }
         Box(
             modifier = Modifier
@@ -651,18 +651,31 @@ private fun AccuracyIcon(modifier: Modifier = Modifier) {
 
 @Composable
 private fun PerformanceSection() {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = "Performance by Topic",
-            fontSize = 17.sp,
-            fontWeight = FontWeight.Bold,
-            color = TextPrimary
+    Column {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Performance by Topic",
+                fontSize = 17.sp,
+                fontWeight = FontWeight.Bold,
+                color = TextPrimary
+            )
+            BarChartIcon(modifier = Modifier.size(27.dp))
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(
+                    Brush.horizontalGradient(
+                        colors = listOf(Color.White, Color(0xFF1B2124))
+                    )
+                )
         )
-        BarChartIcon(modifier = Modifier.size(40.dp))
     }
 }
 
